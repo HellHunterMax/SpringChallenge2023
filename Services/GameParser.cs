@@ -4,10 +4,10 @@ public static class GameParser
     {
         Map map = new Map();
         string[] inputs;
-        int numberOfCells = int.Parse(Console.ReadLine()); // amount of hexagonal cells in this map
+        int numberOfCells = int.Parse(Console.ReadLine()!); // amount of hexagonal cells in this map
         for (int i = 0; i < numberOfCells; i++)
         {
-            inputs = Console.ReadLine().Split(' ');
+            inputs = Console.ReadLine()!.Split(' ');
             int type = int.Parse(inputs[0]); // 0 for empty, 1 for eggs, 2 for crystal
             int initialResources = int.Parse(inputs[1]); // the initial amount of eggs/crystals on this cell
             var neighbours = new List<int>();
@@ -46,7 +46,7 @@ public static class GameParser
         string[] inputs;
         for (int i = 0; i < map.Cells.Count; i++)
         {
-            inputs = Console.ReadLine().Split(' ');
+            inputs = Console.ReadLine()!.Split(' ');
             map.Cells[i].Resources = int.Parse(inputs[0]); // the current amount of eggs/crystals on this cell
             map.Cells[i].FriendlyAnts = int.Parse(inputs[1]); // the amount of your ants on this cell
             map.Cells[i].EnemyAnts = int.Parse(inputs[2]); // the amount of opponent ants on this cell
@@ -56,14 +56,14 @@ public static class GameParser
     private static void MapBases(Map map)
     {
         string[] inputs;
-        int numberOfBases = int.Parse(Console.ReadLine());
+        int numberOfBases = int.Parse(Console.ReadLine()!);
 
-        inputs = Console.ReadLine().Split(' ');
+        inputs = Console.ReadLine()!.Split(' ');
         for (int i = 0; i < numberOfBases; i++)
         {
             map.FriendlyBases.Add(int.Parse(inputs[i]));
         }
-        inputs = Console.ReadLine().Split(' ');
+        inputs = Console.ReadLine()!.Split(' ');
         for (int i = 0; i < numberOfBases; i++)
         {
             map.EnemyBases.Add(int.Parse(inputs[i]));
