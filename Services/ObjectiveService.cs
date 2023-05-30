@@ -1,49 +1,42 @@
 public static class ObjectiveService
 {
-    public static Objective? GetObjective(Map map)
-    {
-        var homeCell = map.Cells[map.FriendlyBases.First()];
-        var cell = GetClosestCellWithCrystals(map, homeCell);
-        if (cell is null)
-        {
-            return null;
-        }
-
-        return new Objective(homeCell, cell);
-    }
-
-    private static Cell? GetClosestCellWithCrystals(Map map, Cell homeCell)
-    {
-        return FindCellWithCrystals(map, homeCell);
-    }
-
-    public static Cell? FindCellWithCrystals(Map map, Cell homeCell)
+    public static Objective? FindCellWithCellType(Map map, Cell startingCell, CellTypeEnum celltypeToLookFor)
     {
         List<int> visited = new List<int>();
+        List<Cell> toVisit = new List<Cell>();
         Queue<Cell> queue = new Queue<Cell>();
+        int distance = 1;
 
-        visited.Add(homeCell.Id);
-        queue.Enqueue(homeCell);
+        visited.Add(startingCell.Id);
 
-        while (queue.Count > 0)
+        toVisit.Add(startingCell);
+        while (toVisit.Any())
         {
-            Cell currentCell = queue.Dequeue();
-
-            if (currentCell.CellType == CellTypeEnum.Crystal && currentCell.Resources > 0)
+            foreach (var cell in toVisit)
             {
-                return currentCell;  // Found a cell with crystals
+                queue.Enqueue(cell);
             }
-
-            foreach (Cell neighbour in currentCell.Neighbours)
+            while (queue.Count > 0)
             {
-                if (!visited.Contains(neighbour.Id))
+                Cell currentCell = queue.Dequeue();
+                toVisit.Remove(currentCell);
+
+                if (currentCell.CellType == celltypeToLookFor && currentCell.Resources > 0)
                 {
-                    visited.Add(neighbour.Id);
-                    queue.Enqueue(neighbour);
+                    return new Objective(startingCell, currentCell, distance);
+                }
+
+                foreach (Cell neighbour in currentCell.Neighbours)
+                {
+                    if (!visited.Contains(neighbour.Id))
+                    {
+                        visited.Add(neighbour.Id);
+                        toVisit.Add(neighbour);
+                    }
                 }
             }
+            distance++;
         }
-
         return null;  // No cell with crystals found
     }
 }

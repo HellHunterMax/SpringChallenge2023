@@ -1,9 +1,18 @@
+
+global using System;
+global using System.Linq;
+global using System.IO;
+global using System.Text;
+global using System.Collections;
+global using System.Collections.Generic;
+
 class Player
 {
     static void Main(string[] args)
     {
         var map = GameParser.ParseStartGame();
         List<Objective> currentObjectives = new List<Objective>();
+        var homeCell = map.Cells[map.FriendlyBases.First()];
 
         // game loop
         while (true)
@@ -26,7 +35,7 @@ class Player
 
             if (currentObjectives.All(x => x.Completed))
             {
-                var objective = ObjectiveService.GetObjective(map);
+                var objective = ObjectiveService.FindCellWithCellType(map, homeCell, CellTypeEnum.Crystal);
                 if (objective is not null)
                 {
                     currentObjectives.Add(objective);
@@ -39,7 +48,6 @@ class Player
             }
             else
             {
-                var homeCell = map.Cells[map.FriendlyBases.First()];
                 var currentObjective = currentObjectives.First(x => !x.Completed);
 
                 Console.WriteLine(Actions.LINE(homeCell.Id, currentObjective.ObjectiveCell.Id, 1));

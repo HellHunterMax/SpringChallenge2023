@@ -5,12 +5,14 @@ public class Objective
     public Cell StartCell { get; set; }
     public Cell ObjectiveCell { get; set; }
     public CellTypeEnum ObjectiveCellType { get; set; }
+    public int Distance { get; set; }
 
-    public Objective(Cell startCell, Cell objectiveCell)
+    public Objective(Cell startCell, Cell objectiveCell, int distance)
     {
         StartCell = startCell;
         ObjectiveCell = objectiveCell;
         ObjectiveCellType = objectiveCell.CellType;
+        Distance = distance;
     }
 
 }
