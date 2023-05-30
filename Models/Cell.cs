@@ -19,9 +19,18 @@ public class Cell
 
     public void SetNeighbours(Map map)
     {
+        if (map is null)
+        {
+            throw new Exception("Map must be given to set neighbours");
+        }
+
         foreach (var id in _Neighbours)
         {
-            Neighbours.Add(map.Cells.Find(x => x.Id == id));
+            var cell = map.Cells.Find(x => x.Id == id);
+            if (cell is not null)
+            {
+                Neighbours.Add(cell);
+            }
         }
     }
 

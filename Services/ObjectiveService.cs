@@ -1,6 +1,6 @@
 public static class ObjectiveService
 {
-    public static Objective GetObjective(Map map)
+    public static Objective? GetObjective(Map map)
     {
         var homeCell = map.Cells[map.FriendlyBases.First()];
         var cell = GetClosestCellWithCrystals(map, homeCell);
@@ -9,12 +9,7 @@ public static class ObjectiveService
             return null;
         }
 
-        return new Objective()
-        {
-            Cell = cell,
-            Completed = false,
-            turns = 0
-        };
+        return new Objective(homeCell, cell);
     }
 
     private static Cell? GetClosestCellWithCrystals(Map map, Cell homeCell)
@@ -22,7 +17,7 @@ public static class ObjectiveService
         return FindCellWithCrystals(map, homeCell);
     }
 
-    public static Cell FindCellWithCrystals(Map map, Cell homeCell)
+    public static Cell? FindCellWithCrystals(Map map, Cell homeCell)
     {
         List<int> visited = new List<int>();
         Queue<Cell> queue = new Queue<Cell>();
