@@ -15,4 +15,9 @@ public class Objective
         Distance = distance;
     }
 
+    public override string ToString()
+    {
+        return $"StartCell {StartCell.Id}, ObjectiveCell Id={ObjectiveCell.Id} resources={ObjectiveCell.Resources}, Distance={Distance}";
+    }
+
 }

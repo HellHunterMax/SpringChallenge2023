@@ -26,10 +26,6 @@ public static class GameParser
         MapBases(map);
         MapNeigboursOnCells(map);
 
-        foreach (Cell cell in map.Cells)
-        {
-            Console.Error.WriteLine($"CellId={cell.Id} Neighbours={cell.Neighbours.Count} Resources={cell.Resources}");
-        }
         return map;
     }
 
@@ -43,6 +39,7 @@ public static class GameParser
 
     public static void UpdateMapForTurn(Map map)
     {
+        Console.Error.WriteLine($"updating map for turn.");
         string[] inputs;
         for (int i = 0; i < map.Cells.Count; i++)
         {

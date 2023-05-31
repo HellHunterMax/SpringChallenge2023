@@ -1,16 +1,15 @@
-public static class ObjectiveService
+public static class CellExtensions
 {
-    public static List<Objective> FindCellWithCellType(Map map, Cell startingCell, CellTypeEnum celltypeToLookFor)
+    public static int GetDistanceTo(this Cell startCell, Cell EndCell)
     {
-        List<Objective> objectives = new List<Objective>();
-        List<int> visited = new List<int>();
+        List<Cell> visited = new List<Cell>();
         List<Cell> toVisit = new List<Cell>();
         Queue<Cell> queue = new Queue<Cell>();
         int distance = 1;
 
-        visited.Add(startingCell.Id);
+        visited.Add(startCell);
 
-        toVisit.Add(startingCell);
+        toVisit.Add(startCell);
         while (toVisit.Any())
         {
             foreach (var cell in toVisit)
@@ -22,22 +21,22 @@ public static class ObjectiveService
                 Cell currentCell = queue.Dequeue();
                 toVisit.Remove(currentCell);
 
-                if (currentCell.CellType == celltypeToLookFor && currentCell.Resources > 0)
+                if (currentCell == EndCell)
                 {
-                    objectives.Add(new Objective(startingCell, currentCell, distance));
+                    return distance;
                 }
 
                 foreach (Cell neighbour in currentCell.Neighbours)
                 {
-                    if (!visited.Contains(neighbour.Id))
+                    if (!visited.Contains(neighbour))
                     {
-                        visited.Add(neighbour.Id);
+                        visited.Add(neighbour);
                         toVisit.Add(neighbour);
                     }
                 }
             }
             distance++;
         }
-        return objectives;  // No cell with crystals found
+        return -1;  // No cell with crystals found
     }
 }
