@@ -20,7 +20,7 @@ class Player
         {
             GameParser.UpdateMapForTurn(map);
 
-            var comboObjective = _tacticeService.getComboObjective();
+            var comboObjective = _tacticeService.getObjective();
 
             if (comboObjective != null)
             {

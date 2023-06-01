@@ -11,6 +11,7 @@ public static class ObjectiveService
         visited.Add(startingCell.Id);
 
         toVisit.Add(startingCell);
+        var number = 0;
         while (toVisit.Any())
         {
             foreach (var cell in toVisit)
@@ -29,6 +30,8 @@ public static class ObjectiveService
 
                 foreach (Cell neighbour in currentCell.Neighbours)
                 {
+                    number++;
+                    Console.Error.Write($"{number}, ");
                     if (!visited.Contains(neighbour.Id))
                     {
                         visited.Add(neighbour.Id);

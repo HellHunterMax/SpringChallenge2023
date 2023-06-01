@@ -14,6 +14,27 @@ public class TacticService
 
     }
 
+    public List<Objective>? getObjective()
+    {
+        List<Objective> objectives = new List<Objective>();
+
+        if (!EggObjectives.Any())
+        {
+            return getComboObjective();
+        }
+        Console.Error.WriteLine($"first EggObjective =");
+        Console.Error.WriteLine(EggObjectives.First());
+        if (EggObjectives.First().Distance < 3)
+        {
+            Console.Error.WriteLine($"found 1 egg Objective returning it.");
+            Console.Error.WriteLine(EggObjectives.First());
+            objectives.Add(EggObjectives.First());
+            return objectives;
+        }
+
+        return getComboObjective();
+    }
+
     public List<Objective>? getComboObjective()
     {
         var objectives = new Dictionary<Objective, List<Objective>>();
@@ -42,13 +63,14 @@ public class TacticService
         Console.Error.WriteLine($"Finding Crystals for EggObjective.");
         var maxDistance = objectives.First().Value.Max(x => x.Distance);
         var count = 1;
-        while (bestObjective.Count < 2 || count > maxDistance)
+        while (bestObjective.Count < 2 || count < maxDistance)
         {
+            Console.Error.Write($"{count}, ");
             bestObjective.AddRange(
             objectives.First().Value.Where(x => x.Distance < count));
             count++;
         }
-
+        Console.Error.WriteLine($"Returning Best objective.");
         return bestObjective;
     }
 
@@ -57,6 +79,5 @@ public class TacticService
         Console.Error.WriteLine($"updating TacticService for turn.");
         CrystalObjectives.RemoveAll(x => x.ObjectiveCell.Resources == 0);
         EggObjectives.RemoveAll(x => x.ObjectiveCell.Resources == 0);
-        EggObjectives.LogObjectives();
     }
 }
