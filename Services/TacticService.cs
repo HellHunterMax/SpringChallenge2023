@@ -9,18 +9,18 @@ public class TacticService
     {
         Map = map;
         HomeCell = homeCell;
-        EggObjectives = ObjectiveService.FindCellWithCellType(map, homeCell, CellTypeEnum.Egg).OrderBy(x => x.Distance).ToList();
-        CrystalObjectives = ObjectiveService.FindCellWithCellType(map, homeCell, CellTypeEnum.Crystal).OrderBy(x => x.Distance).ToList();
+        EggObjectives = ObjectiveService.FindObjectivesWithCellType(map, homeCell, CellTypeEnum.Egg).OrderBy(x => x.Distance).ToList();
+        CrystalObjectives = ObjectiveService.FindObjectivesWithCellType(map, homeCell, CellTypeEnum.Crystal).OrderBy(x => x.Distance).ToList();
 
     }
 
-    public List<Objective>? getObjective()
+    public List<Objective>? getObjectives()
     {
-        List<Objective> objectives = new List<Objective>();
+        List<Objective>? objectives = new List<Objective>();
 
         if (!EggObjectives.Any())
         {
-            return getComboObjective();
+            return CrystalObjectives;
         }
         Console.Error.WriteLine($"first EggObjective =");
         Console.Error.WriteLine(EggObjectives.First());
@@ -32,7 +32,9 @@ public class TacticService
             return objectives;
         }
 
-        return getComboObjective();
+        objectives = getComboObjective();
+
+        return objectives;
     }
 
     public List<Objective>? getComboObjective()
@@ -52,7 +54,7 @@ public class TacticService
         foreach (var EggObjective in EggObjectives)
         {
             var objectivesFromEggs = new List<Objective>();
-            objectives.Add(EggObjective, ObjectiveService.FindCellWithCellType(Map, EggObjective.ObjectiveCell, CellTypeEnum.Crystal).OrderBy(x => x.Distance).ToList());
+            objectives.Add(EggObjective, ObjectiveService.FindObjectivesWithCellType(Map, EggObjective.ObjectiveCell, CellTypeEnum.Crystal).OrderBy(x => x.Distance).ToList());
         }
         Console.Error.WriteLine($"Creating bestObjective.");
 

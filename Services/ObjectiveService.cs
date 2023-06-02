@@ -1,6 +1,6 @@
 public static class ObjectiveService
 {
-    public static List<Objective> FindCellWithCellType(Map map, Cell startingCell, CellTypeEnum celltypeToLookFor)
+    public static List<Objective> FindObjectivesWithCellType(Map map, Cell startingCell, CellTypeEnum celltypeToLookFor)
     {
         List<Objective> objectives = new List<Objective>();
         List<int> visited = new List<int>();
